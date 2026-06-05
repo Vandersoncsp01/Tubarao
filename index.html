@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download - 🦈Premium🦈</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #38bdf8;
+            --primary-hover: #0ea5e9;
+            --success: #22c55e;
+            --success-hover: #16a34a;
+            --error: #f43f5e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+            background-color: #070a13;
+        }
+
+        /* Imagem de Fundo Premium e Otimizada */
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Imagem abstrata escura de tecnologia/estúdio para manter o foco no app */
+            background: linear-gradient(rgba(7, 10, 19, 0.75), rgba(7, 10, 19, 0.85)), 
+                        url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transform: scale(1.05);
+        }
+
+        /* Cartão com efeito de Vidro Embaçado (Glassmorphism) */
+        .card {
+            background: rgba(21, 27, 44, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            width: 100%;
+            max-width: 500px;
+            padding: 40px 30px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+            text-align: center;
+        }
+
+        .logo-area {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.15), rgba(129, 140, 248, 0.15));
+            color: var(--primary);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        h1 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            color: #64748b;
+            pointer-events: none;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 18px 16px 18px 48px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.6);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--primary);
+            background: rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #38bdf8, #6366f1);
+            color: #ffffff;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.35);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Animação do Spinner de Carregamento */
+        .status-container {
+            margin-top: 25px;
+            min-height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Caixa de Download Finalizado */
+        .result-box {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: none;
+            animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .success-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 18px;
+            background: var(--success);
+            color: white;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 15px;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .download-btn:hover {
+            background: var(--success-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-image"></div>
+
+    <div class="card">
+        <div class="logo-area">
+            <i data-lucide="layers" size="24"></i>
+        </div>
+        <h1>MediaDown Studio</h1>
+        <p class="subtitle">Cole a URL do TikTok ou Instagram. O sistema processará o arquivo em qualidade máxima e sem marcas d'água.</p>
+
+        <div class="input-wrapper">
+            <i data-lucide="link" class="input-icon" size="18"></i>
+            <input type="text" id="videoUrl" placeholder="Insira o link aqui...">
+        </div>
+
+        <button id="processBtn">
+            <i data-lucide="zap" size="18"></i>
+            <span>Iniciar Extração HD</span>
+        </button>
+
+        <div class="status-container">
+            <div class="spinner" id="loadingSpinner"></div>
+            <div id="statusText"></div>
+        </div>
+
+        <div class="result-box" id="resultBox">
+            <div class="success-badge">
+                <i data-lucide="shield-check" size="14"></i>
+                Mídia Pronta & Segura
+            </div>
+            <a href="#" id="downloadBtn" class="download-btn" target="_blank">
+                <i data-lucide="download" size="18"></i>
+                Baixar MP4 Ultra HD
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Renderiza os ícones do pacote Lucide
+        lucide.createIcons();
+
+        const processBtn = document.getElementById('processBtn');
+        const videoUrlInput = document.getElementById('videoUrl');
+        const statusText = document.getElementById('statusText');
+        const spinner = document.getElementById('loadingSpinner');
+        const resultBox = document.getElementById('resultBox');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        processBtn.addEventListener('click', async () => {
+            const url = videoUrlInput.value.trim();
+            if (!url) {
+                statusText.innerHTML = "<span style='color: var(--error);'>Por favor, forneça um link válido.</span>";
+                return;
+            }
+
+            statusText.style.color = "#ffffff";
+            statusText.textContent = "Processando no servidor local...";
+            spinner.style.display = 'block';
+            resultBox.style.display = 'none';
+
+            try {
+                const response = await fetch('/download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+
+                const data = await response.json();
+                spinner.style.display = 'none';
+
+                if (data.url) {
+                    statusText.textContent = "";
+                    downloadBtn.href = data.url;
+                    resultBox.style.display = 'block';
+                } else {
+                    statusText.innerHTML = "<span style='color: var(--error);'>Erro ao decodificar a mídia deste link.</span>";
+                }
+            } catch (error) {
+                spinner.style.display = 'none';
+                statusText.innerHTML = "<span style='color: var(--error);'>Servidor local desconectado.</span>";
+            }
+        });
+    </script>
+</body>
+</html>
+
